@@ -1,16 +1,23 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
-const path = require("node:path");
+import { app, BrowserWindow } from "electron";
+import { fileURLToPath } from "url";
+import path from "path";
+
+import { initShortCut, unInstallShortCut } from "./shortcut/index.ts";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    frame: true,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "/modules/preload/index.js"),
     },
   });
 
@@ -35,6 +42,9 @@ app.whenReady().then(() => {
     // 点击托盘图标时通常会重新创建一个新窗口
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+
+  // 初始化快捷键
+  initShortCut();
 });
 
 // 除了 macOS 外，当所有窗口都被关闭的时候退出程序。 因此, 通常
@@ -44,5 +54,21 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
 
-// 在当前文件中你可以引入所有的主进程代码
-// 也可以拆分成几个文件，然后用 require 导入。
+// 客户端聚焦
+app.on("browser-window-focus", () => {
+  // 初始化快捷键
+  initShortCut();
+  console.log("browser-window-focus");
+});
+
+// 客户端失去焦点
+app.on("browser-window-blur", () => {
+  // 初始化快捷键
+  unInstallShortCut();
+  console.log("browser-window-blur");
+});
+
+app.on("will-quit", () => {
+  // 注销快捷键
+  unInstallShortCut();
+});

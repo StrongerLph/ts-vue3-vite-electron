@@ -8,6 +8,11 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import Icons from "unplugin-icons/vite";
 import IconsResolver from "unplugin-icons/resolver";
 
+// electron
+import electron from "vite-plugin-electron";
+import electronRenderer from "vite-plugin-electron-renderer";
+import polyfillExports from "vite-plugin-electron-renderer";
+
 const root = process.cwd();
 function pathResolve(dir: string) {
   return resolve(root, ".", dir);
@@ -78,9 +83,19 @@ export default defineConfig({
         }),
       ],
     }),
-
     Icons({
       autoInstall: true,
     }),
+    electron([
+      {
+        entry: "/src/electron/main.ts", // 主进程文件
+      }
+    ]),
+    electronRenderer(),
+    polyfillExports(),
   ],
+  build: {
+    emptyOutDir: false, // 默认情况下，若 outDir 在 root 目录下，则 Vite 会在构建时清空该目录
+    outDir: "dist-electron",
+  },
 });
