@@ -17,7 +17,7 @@ const createWindow = () => {
     height: 600,
     frame: true,
     webPreferences: {
-      preload: path.join(__dirname, "/modules/preload/index.js"),
+      preload: path.join(__dirname, "./modules/preload/index.js"),
     },
   });
 

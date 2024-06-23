@@ -88,7 +88,11 @@ export default defineConfig({
     }),
     electron([
       {
-        entry: "/src/electron/main.ts", // 主进程文件
+        entry: "src/electron/main.ts", // 主进程文件
+      },
+      {
+        entry: "src/electron/modules/preload/index.ts", // preload
+        vite: { build: { outDir: "dist-electron/modules/preload" } } // 输出目录
       }
     ]),
     electronRenderer(),
