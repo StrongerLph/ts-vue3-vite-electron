@@ -10,16 +10,19 @@ import IconsResolver from "unplugin-icons/resolver";
 
 // electron
 import electron from "vite-plugin-electron";
-import electronRenderer from "vite-plugin-electron-renderer";
-import polyfillExports from "vite-plugin-electron-renderer";
 
 const root = process.cwd();
 function pathResolve(dir: string) {
   return resolve(root, ".", dir);
 }
 
+function isDev() {
+  return process.env.NODE_ENV === "development";
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "./",
   server: {
     port: 4000,
     proxy: {
@@ -27,7 +30,7 @@ export default defineConfig({
       "/dev-api": {
         target: "https://xxx/api",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/dev-api/, ""),
+        rewrite: (path: string) => path.replace(/^\/dev-api/, ""),
       },
     },
     hmr: {
@@ -89,17 +92,12 @@ export default defineConfig({
     electron([
       {
         entry: "src/electron/main.ts", // 主进程文件
+        vite: { build: { outDir: "dist-electron" } },
       },
       {
         entry: "src/electron/modules/preload/index.ts", // preload
-        vite: { build: { outDir: "dist-electron/modules/preload" } } // 输出目录
-      }
+        vite: { build: { outDir: "dist-electron/modules/preload" } }, // 输出目录
+      },
     ]),
-    electronRenderer(),
-    polyfillExports(),
   ],
-  build: {
-    emptyOutDir: false, // 默认情况下，若 outDir 在 root 目录下，则 Vite 会在构建时清空该目录
-    outDir: "dist-electron",
-  },
 });

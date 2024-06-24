@@ -1,22 +1,13 @@
 {
-  "name": "ts-vue3-vite-electron",
+  "name": "vite-electron-vue3-ts-template",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && rimraf dist-electron && vite build && electron-builder",
-    "build:win": "vue-tsc && rimraf dist-electron && vite build && electron-builder --windows",
+    "build": "rimraf dist && rimraf dist-electron && vue-tsc && vite build && electron-builder",
     "preview": "vite preview"
-  },
-  "dependencies": {
-    "axios": "^1.7.2",
-    "element-plus": "^2.7.5",
-    "pinia": "^2.1.7",
-    "qs": "^6.12.1",
-    "vue": "^3.4.21",
-    "vue-router": "4"
   },
   "devDependencies": {
     "@iconify-json/ep": "^1.1.15",
@@ -24,9 +15,13 @@
     "@types/node": "^20.14.8",
     "@types/qs": "^6.9.15",
     "@vitejs/plugin-vue": "^5.0.4",
+    "axios": "^1.7.2",
     "electron": "^31.0.1",
-    "electron-builder": "^24.13.3",
+    "electron-builder": "24.13.0",
     "electron-devtools-installer": "^3.2.0",
+    "element-plus": "^2.7.5",
+    "pinia": "^2.1.7",
+    "qs": "^6.12.1",
     "rimraf": "^5.0.7",
     "sass": "^1.77.4",
     "sass-loader": "^14.2.1",
@@ -36,15 +31,18 @@
     "unplugin-vue-components": "^0.27.0",
     "vite": "^5.2.0",
     "vite-plugin-electron": "^0.28.7",
-    "vite-plugin-electron-renderer": "^0.14.5",
+    "vue": "^3.4.21",
+    "vue-router": "4",
     "vue-tsc": "^2.0.6",
     "web-storage-cache": "^1.1.1"
   },
   "build": {
-    "appId": "com.electron.desktop",
-    "productName": "electron",
-    "asar": true,
-    "copyright": "Copyright © 2022 electron",
+    "appId": "com.electron.app",
+    "productName": "vite-electron-vue3-ts-template",
+    "win": {
+      "icon": "./public/logo.ico",
+      "artifactName": "${productName}.${ext}"
+    },
     "directories": {
       "output": "release/${version}"
     },
@@ -53,37 +51,17 @@
       "./package.json",
       "./dist-electron"
     ],
-    "mac": {
-      "artifactName": "${productName}_${version}.${ext}",
-      "target": [
-        "dmg"
-      ]
-    },
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
-      "artifactName": "${productName}_${version}.${ext}"
-    },
     "nsis": {
       "oneClick": false,
-      "perMachine": false,
+      "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
-      "deleteAppDataOnUninstall": false
-    },
-    "publish": [
-      {
-        "provider": "generic",
-        "url": "http://127.0.0.1:8080"
-      }
-    ],
-    "releaseInfo": {
-      "releaseNotes": "版本更新的具体内容"
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "installerIcon": "./public/logo.ico",
+      "uninstallerIcon": "./public/logo.ico",
+      "installerHeaderIcon": "./public/logo.ico",
+      "shortcutName": "vite-electron-vue3-ts-template"
     }
   }
 }
