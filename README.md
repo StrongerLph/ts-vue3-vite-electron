@@ -1,9 +1,27 @@
-# Vue 3 + TypeScript + Vite
+# Vue 3 + TypeScript + Vite + Electron
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 简介
 
-## Recommended Setup
+基于Vue 3 + TypeScript 和 Vite + electron-builder 构建的electron桌面应用开发项目模版。
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+- 支持eslint+prettier+stylelint代码风格统一
+- 支持husky、lint-stage、commitlint 强制代码风格和commit风格
+··· 更多工程化配置开发中
 
-- Use [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating d.ts files for SFCs.
+## 启动项目
+
+``` bash
+# 全局安装 commitizen pnpm
+npm install -g commitizen pnpm
+
+# 进入项目根目录
+pnpm install
+
+# 本地运行
+pnpm run dev
+
+# 打包
+pnpm run build
+
+# build 生成 release目录，目录下对应版本号的应用安装包 win下双击.exe文件安装应用
+```
