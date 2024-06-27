@@ -1,58 +1,49 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import { resolve } from "path";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import { resolve } from 'path';
 
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import Icons from "unplugin-icons/vite";
-import IconsResolver from "unplugin-icons/resolver";
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
 
 // electron
-import electron from "vite-plugin-electron";
+import electron from 'vite-plugin-electron';
 
 const root = process.cwd();
 function pathResolve(dir: string) {
-  return resolve(root, ".", dir);
+  return resolve(root, '.', dir);
 }
 
-function isDev() {
-  return process.env.NODE_ENV === "development";
-}
+// function isDev() {
+//   return process.env.NODE_ENV === "development";
+// }
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "./",
+  base: './',
   server: {
     port: 4000,
     proxy: {
       // 选项写法
-      "/dev-api": {
-        target: "https://xxx/api",
+      '/dev-api': {
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: (path: string) => path.replace(/^\/dev-api/, ""),
+        rewrite: (path: string) => path.replace(/^\/dev-api/, ''),
       },
     },
     hmr: {
       overlay: false,
     },
-    host: "0.0.0.0",
+    host: '0.0.0.0',
   },
   resolve: {
-    extensions: [
-      ".mjs",
-      ".js",
-      ".ts",
-      ".jsx",
-      ".tsx",
-      ".json",
-      ".scss",
-      ".css",
-    ],
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss', '.css'],
     alias: [
       {
-        find: /\@\//,
-        replacement: `${pathResolve("src")}/`,
+        find: /@\//,
+        replacement: `${pathResolve('src')}/`,
       },
     ],
   },
@@ -60,29 +51,36 @@ export default defineConfig({
     vue(),
     AutoImport({
       // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
-      imports: ["vue"],
+      imports: ['vue'],
       // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
       resolvers: [
         ElementPlusResolver(),
         // Auto import icon components
         // 自动导入图标组件
         IconsResolver({
-          prefix: "Icon",
+          prefix: 'Icon',
         }),
       ],
       // 输出自动导入函数等的声明
-      dts: resolve(__dirname, "src/types/auto-imports.d.ts"),
+      dts: resolve(__dirname, 'src/types/auto-imports.d.ts'),
+      // 解决eslint对于自动引入 提示报错问如：'ref' is not defined
+      eslintrc: {
+        enabled: false, // Default `false`
+        // provide path ending with `.mjs` or `.cjs` to generate the file with the respective format
+        filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
+        globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+      },
     }),
     Components({
       // 输出自动注册的组件的声明
-      dts: resolve(__dirname, "src/types/components.d.ts"),
+      dts: resolve(__dirname, 'src/types/components.d.ts'),
       resolvers: [
         // 自动注册 Element Plus 组件
         ElementPlusResolver(),
         // 自动注册图标组件 使用icon-ep-[iconName]
         IconsResolver({
-          prefix: "icon",
-          enabledCollections: ["ep"], // ep -> element-plus icon
+          prefix: 'icon',
+          enabledCollections: ['ep'], // ep -> element-plus icon
         }),
       ],
     }),
@@ -91,12 +89,12 @@ export default defineConfig({
     }),
     electron([
       {
-        entry: "src/electron/main.ts", // 主进程文件
-        vite: { build: { outDir: "dist-electron" } },
+        entry: 'src/electron/main.ts', // 主进程文件
+        vite: { build: { outDir: 'dist-electron' } },
       },
       {
-        entry: "src/electron/modules/preload/index.ts", // preload
-        vite: { build: { outDir: "dist-electron/modules/preload" } }, // 输出目录
+        entry: 'src/electron/modules/preload/index.ts', // preload
+        vite: { build: { outDir: 'dist-electron/modules/preload' } }, // 输出目录
       },
     ]),
   ],
