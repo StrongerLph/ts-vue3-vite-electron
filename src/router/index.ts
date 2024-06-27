@@ -1,16 +1,16 @@
-import { createRouter, RouteRecordRaw, createWebHashHistory } from "vue-router";
-import type { App } from "vue";
+import { createRouter, RouteRecordRaw, createWebHashHistory } from 'vue-router';
+import type { App } from 'vue';
 
 export const constantRouterMap: RouteRecordRaw[] = [
   {
-    path: "",
-    name: "Home",
-    component: () => import("@/views/home/index.vue"),
+    path: '',
+    name: 'Home',
+    component: () => import('@/views/home/index.vue'),
   },
   {
-    path: "/login",
-    name: "Login",
-    component: () => import("@/views/login/index.vue"),
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/login/index.vue'),
     meta: {
       hidden: true,
     },

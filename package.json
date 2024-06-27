@@ -7,25 +7,51 @@
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && rimraf dist-electron && vue-tsc && vite build && electron-builder",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --max-warnings 0",
+    "lint:fix": "eslint --max-warnings 0 --fix",
+    "stylelint": "stylelint src/**/*.{html,vue,css,scss}",
+    "stylelint:fix": "stylelint --fix src/**/*.{html,vue,css,scss}",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.5.0",
     "@iconify-json/ep": "^1.1.15",
-    "@types/electron": "^1.6.10",
+    "@types/lodash": "^4.17.5",
     "@types/node": "^20.14.8",
     "@types/qs": "^6.9.15",
     "@vitejs/plugin-vue": "^5.0.4",
     "axios": "^1.7.2",
+    "cz-git": "^1.9.3",
     "electron": "^31.0.1",
     "electron-builder": "24.13.0",
     "electron-devtools-installer": "^3.2.0",
     "element-plus": "^2.7.5",
+    "eslint": "^9.5.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-vue": "^9.26.0",
+    "globals": "^15.6.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
+    "lodash": "^4.17.21",
     "pinia": "^2.1.7",
+    "postcss-html": "^1.7.0",
+    "postcss-scss": "^4.0.9",
+    "prettier": "3.3.2",
     "qs": "^6.12.1",
     "rimraf": "^5.0.7",
     "sass": "^1.77.4",
     "sass-loader": "^14.2.1",
-    "typescript": "^5.2.2",
+    "stylelint": "^16.6.1",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-order": "^6.0.4",
+    "typescript": "^5.5.2",
+    "typescript-eslint": "^7.14.1",
     "unplugin-auto-import": "^0.17.6",
     "unplugin-icons": "^0.19.0",
     "unplugin-vue-components": "^0.27.0",
@@ -35,6 +61,20 @@
     "vue-router": "4",
     "vue-tsc": "^2.0.6",
     "web-storage-cache": "^1.1.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "prettier --write",
+      "npm run lint:fix"
+    ],
+    "*.{html,vue,css,scss}": [
+      "npm run stylelint:fix"
+    ]
   },
   "build": {
     "appId": "com.electron.app",

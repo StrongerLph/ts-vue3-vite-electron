@@ -1,11 +1,11 @@
 // main.js
 
 // Modules to control application life and create native browser window
-import { app, BrowserWindow } from "electron";
-import { fileURLToPath } from "url";
-import path from "path";
+import { app, BrowserWindow } from 'electron';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
-import { initShortCut, unInstallShortCut } from "./shortcut/index.ts";
+import { initShortCut, unInstallShortCut } from './shortcut/index.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,17 +17,17 @@ const createWindow = () => {
     height: 600,
     frame: true,
     webPreferences: {
-      preload: path.join(__dirname, "./modules/preload/index.js"),
+      preload: path.join(__dirname, './modules/preload/index.js'),
     },
   });
 
   if (app.isPackaged) {
     // 加载 index.html
-    mainWindow.loadFile("dist/index.html");
+    mainWindow.loadFile('dist/index.html');
   } else {
-    mainWindow.loadURL("http://localhost:4000");
+    mainWindow.loadURL('http://localhost:4000');
     // 打开开发工具
-    mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
   }
 };
 
@@ -37,7 +37,7 @@ const createWindow = () => {
 app.whenReady().then(() => {
   createWindow();
 
-  app.on("activate", () => {
+  app.on('activate', () => {
     // 在 macOS 系统内, 如果没有已开启的应用窗口
     // 点击托盘图标时通常会重新创建一个新窗口
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -50,25 +50,25 @@ app.whenReady().then(() => {
 // 除了 macOS 外，当所有窗口都被关闭的时候退出程序。 因此, 通常
 // 对应用程序和它们的菜单栏来说应该时刻保持激活状态,
 // 直到用户使用 Cmd + Q 明确退出
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
 });
 
 // 客户端聚焦
-app.on("browser-window-focus", () => {
+app.on('browser-window-focus', () => {
   // 初始化快捷键
   initShortCut();
-  console.log("browser-window-focus");
+  console.log('browser-window-focus');
 });
 
 // 客户端失去焦点
-app.on("browser-window-blur", () => {
+app.on('browser-window-blur', () => {
   // 初始化快捷键
   unInstallShortCut();
-  console.log("browser-window-blur");
+  console.log('browser-window-blur');
 });
 
-app.on("will-quit", () => {
+app.on('will-quit', () => {
   // 注销快捷键
   unInstallShortCut();
 });
