@@ -2,7 +2,7 @@ import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import pluginVue from 'eslint-plugin-vue';
-import eslintConfigPrettier from 'eslint-config-prettier';
+import VueEslintParser from 'vue-eslint-parser';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import { FlatCompat } from '@eslint/eslintrc';
 import path from 'path';
@@ -17,18 +17,33 @@ const compat = new FlatCompat({
 });
 
 export default [
-  { files: ['**/*.{js,mjs,cjs,ts,vue}'], ignores: ['.vscode', '.husky', '**/node_modules/', 'dist', 'dist-electron'] },
-  { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+  {
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,vue}'],
+    ignores: ['.vscode', '.husky', '**/node_modules/', 'dist', 'dist-electron', '**/*.d.ts'],
+    languageOptions: {
+      parser: VueEslintParser,
+      parserOptions: {
+        parser: '@typescript-eslint/parser',
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: { ...globals.browser, ...globals.node },
+    },
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...pluginVue.configs['flat/essential'],
   ...compat.extends('eslint-config-standard'),
   ...compat.extends('./.eslintrc-auto-import.json'), // 解决vue api自动引入提示not defined错误问题
-  eslintConfigPrettier,
   eslintPluginPrettierRecommended,
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-unused-vars': 'off',
       'vue/multi-word-component-names': 0,
     },
   },
