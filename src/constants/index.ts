@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // 标签类型
 type TagTheme = 'default' | 'success' | 'primary' | 'warning' | 'danger';
 

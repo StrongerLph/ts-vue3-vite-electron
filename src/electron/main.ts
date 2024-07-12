@@ -16,6 +16,7 @@ const createWindow = () => {
     width: 800,
     height: 600,
     frame: true,
+    autoHideMenuBar: true, // 隐藏默认菜单栏
     webPreferences: {
       preload: path.join(__dirname, './modules/preload/index.js'),
     },

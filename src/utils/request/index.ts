@@ -5,7 +5,6 @@ import merge from 'lodash/merge';
 
 import { ContentTypeEnum } from '@/constants';
 import { useUserStore } from '@/store';
-import { Recordable } from '@/types/custom-global'; // tips: include中包含了，各种网上方法尝试了，不知道为什么这个声明需要手动引入才不会报'Recordable' is not defined  no-undef，如果有知道原因的请不吝赐教
 
 import { VAxios } from './Axios';
 import type { AxiosTransform, CreateAxiosOptions } from './AxiosTransform';

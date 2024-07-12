@@ -10,5 +10,6 @@ export const setupStore = (app: App<Element>) => {
 export { store };
 
 export * from './modules/user';
+export * from './modules/permission';
 
 export default store;

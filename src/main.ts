@@ -10,6 +10,8 @@ import { setupRouter } from '@/router';
 
 import App from './App.vue';
 
+import './permission'; // 鉴权模块
+
 const bootstrap = () => {
   const app = createApp(App);
   setupStore(app);

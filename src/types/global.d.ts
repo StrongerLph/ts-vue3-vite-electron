@@ -13,4 +13,6 @@ declare global {
   type ElRef<T extends HTMLElement = HTMLDivElement> = Nullable<T>;
 
   type ComponentRef<T> = InstanceType<T>;
+
+  type Recordable<T = any> = Record<string, T>;
 }

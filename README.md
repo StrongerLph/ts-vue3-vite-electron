@@ -6,11 +6,11 @@
 
 - 支持eslint+prettier+stylelint代码风格统一
 - 支持husky、lint-stage、commitlint 强制代码风格和commit风格
-··· 更多工程化配置开发中
+  ··· 更多工程化配置开发中
 
 ## 启动项目
 
-``` bash
+```bash
 # 全局安装 commitizen pnpm
 npm install -g commitizen pnpm
 
